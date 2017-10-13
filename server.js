@@ -3,8 +3,10 @@ var express = require('express');
 //create an express app.
 var app = express();
 app.use(express.static('public'));
+var db = require('./models');
+var controllers = require('./controllers');
 
-
+app.get('/api', controllers.api.index);
 app.get('/', function(req, res){
   res.sendFile('views/index.html' , { root : __dirname});
 })
