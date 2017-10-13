@@ -1,11 +1,12 @@
 //require express so we can start using it.
 var express = require('express');
-//create an express app. 
+//create an express app.
 var app = express();
+app.use(express.static('public'));
 
 
 app.get('/', function(req, res){
-  res.json({greeting: "hello!"})
+  res.sendFile('views/index.html' , { root : __dirname});
 })
 
 // listen on port 3000
