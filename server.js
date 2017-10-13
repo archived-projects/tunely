@@ -10,6 +10,7 @@ app.get('/api', controllers.api.index);
 app.get('/', function(req, res){
   res.sendFile('views/index.html' , { root : __dirname});
 })
+app.get('/api/albums', controllers.albums.index)
 
 // listen on port 3000
 app.listen(3000, function() {
