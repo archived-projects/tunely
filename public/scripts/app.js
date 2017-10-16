@@ -32,12 +32,6 @@ var sampleAlbums = [{
 
 $(document).ready(function() {
   console.log('app.js loaded!');
-  renderAlbum(sampleAlbums.forEach(function( index ){
-    $('.album-name').text(index.name);
-    $('.artist-name').text(index.artistName);
-    $('.album-releaseDate').text(index.releaseDate);
-  }))
-
   $.ajax({
     method: 'GET',
     url: '/api/albums',
@@ -45,7 +39,25 @@ $(document).ready(function() {
     error: handleError
   });
 
+  renderAlbum(sampleAlbums.forEach(function( index ){
+    $('.album-name').text(index.name);
+    $('.artist-name').text(index.artistName);
+    $('.album-releaseDate').text(index.releaseDate);
+  }))
+
+  $('#album-form form').on('submit', function(e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+
+    $.post('/api/albums', formData, function(album) {
+      renderAlbum(album);
+    })
+
+    // reset form input values after formData has been captured
+    $(this).trigger("reset");
+  });
 });
+
 
 function handleSuccess (albums) {
     albums.forEach(function(album) {
@@ -90,7 +102,7 @@ function renderAlbum(album) {
 
   $('#albums').prepend(htmlToAppend);
 };
-// this function takes a single album and renders it to the page
+// // this function takes a single album and renders it to the page
 // function renderAlbum(album) {
 //   console.log('rendering album:', sampleAlbums[0]);
 //   // $(".album-name").text(sampleAlbums[0].name);
